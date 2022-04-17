@@ -1,5 +1,5 @@
 .env
 credentials.json
-googleapi.js
+token.json
 node_modules
 example.json
