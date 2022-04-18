@@ -2,6 +2,10 @@
 
 Simple bot for getting users feedback.
 
+Written using [Telegraf framework](https://github.com/telegraf/telegraf).
+
+Logs are stored in google spreadsheet using [googleapis](https://www.npmjs.com/package/googleapis).
+
 ## To run
 
 1. Rename `.env.example` to `.env`.
@@ -11,11 +15,6 @@ Simple bot for getting users feedback.
 5. Create google spreadsheet and write it's ID to `.env`.
 6. Run `npm install`.
 7. Run `npm start`.
-
-## References
-
-Based on [Telegraf framework](https://github.com/telegraf/telegraf).
-Logs are stored in google spreadsheet using [googleapis](https://www.npmjs.com/package/googleapis).
 
 ## TODOs
 

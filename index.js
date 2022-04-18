@@ -2,7 +2,7 @@ require('dotenv').config();
 const { TELEGRAM_TOKEN } = process.env;
 const { Telegraf, Markup, session } = require('telegraf');
 const { saveFeedback } = require('./feedback');
-const { msgWelcome, msgMain, topicObj } = require('./messages');
+const { msgWelcome, msgMain, topicObj } = require('./constants/messages');
 
 const getMainMenu = (ctx) => {
   ctx.session = ctx.session || {};

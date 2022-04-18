@@ -12,7 +12,7 @@ const saveFeedback = (ctx) => {
     },
     session: { topic },
   } = ctx;
-  const formattedDate = format(date * 1000, 'yyyy-MM-dd hh:mm:ss');
+  const formattedDate = format(date * 1000, 'yyyy-MM-dd HH:mm:ss');
   console.log(
     `${formattedDate} [${first_name} ${last_name} ${username}] ${topic}: ${text}`
   );
