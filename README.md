@@ -4,7 +4,7 @@ Simple bot for getting users feedback.
 
 Written using [Telegraf framework](https://github.com/telegraf/telegraf).
 
-Logs are stored in google spreadsheet using [googleapis](https://www.npmjs.com/package/googleapis).
+Logs are stored in Google spreadsheet using [googleapis](https://www.npmjs.com/package/googleapis).
 
 ## To run
 
@@ -18,11 +18,17 @@ Logs are stored in google spreadsheet using [googleapis](https://www.npmjs.com/p
 
 ## TODOs
 
-- Attach images and videos to report messages
-- Forward report messages to support telegram chat
-- Send report e-mail
+- [ ] Fix Google auth token expiration issue
+- [ ] Attach images and videos to report messages
+- [ ] Forward report messages to support telegram chat
+- [ ] Send report e-mail
 
 ## Changelog
+
+### Version 0.0.3:
+
+- Added equipment serial number request
+- Replaced inline keyboard with keyboard
 
 ### Version 0.0.2:
 

@@ -84,7 +84,7 @@ async function append(auth, dataRow) {
 
     // The A1 notation of a range to search for a logical table of data.
     // Values are appended after the last row of the table.
-    range: 'Log!A:F',
+    range: 'Log!A:G',
 
     // How the input data should be interpreted.
     valueInputOption: 'RAW',

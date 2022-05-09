@@ -2,44 +2,71 @@ require('dotenv').config();
 const { TELEGRAM_TOKEN } = process.env;
 const { Telegraf, Markup, session } = require('telegraf');
 const { saveFeedback } = require('./feedback');
-const { msgWelcome, msgMain, topicObj } = require('./constants/messages');
+const {
+  msgWelcome,
+  msgHelp,
+  msgSN,
+  btnCancel,
+  msgCancel,
+  topics,
+} = require('./constants/messages');
 
-const getMainMenu = (ctx) => {
+const feedbackKeyboard = Markup.keyboard(topics.map((topic) => topic.button));
+const cancelKeyboard = Markup.keyboard([btnCancel]).resize();
+const topicsRegExp = new RegExp(topics.map((topic) => topic.button).join('|'));
+const cancelRegExp = new RegExp(`^${btnCancel}$`);
+
+const clearSession = (ctx) => {
   ctx.session = ctx.session || {};
-  ctx.reply(msgMain, keyboard);
+  ctx.session.topic = '';
+  ctx.session.sn = '';
 };
-const keyboard = Markup.inlineKeyboard(
-  Object.keys(topicObj).map((key) =>
-    Markup.button.callback(topicObj[key].button, key)
-  )
-);
 
 const bot = new Telegraf(TELEGRAM_TOKEN);
+
 bot.use(session());
 bot.start((ctx) => {
-  ctx.session = ctx.session || {};
-  ctx.replyWithMarkdown(`${msgWelcome}\n\n${msgMain}`, keyboard);
+  ctx.reply(msgWelcome, feedbackKeyboard);
 });
-bot.help(getMainMenu);
-bot.command('menu', getMainMenu);
+bot.help((ctx) => {
+  clearSession(ctx);
+  ctx.reply(msgHelp, feedbackKeyboard);
+});
 
-for (let key in topicObj) {
-  bot.action(key, (ctx) => {
-    ctx.session = ctx.session || {};
-    ctx.session.topic = key;
-    ctx.reply(topicObj[key].preface);
-  });
-}
+bot.hears(topicsRegExp, (ctx) => {
+  ctx.session = ctx.session || {};
+  const topic = topics.find((topic) => topic.button === ctx.match[0]);
+
+  if (topic && !ctx.session.topic) {
+    ctx.session.topic = topic.id;
+    ctx.reply(msgSN, cancelKeyboard);
+  }
+});
+
+bot.hears(cancelRegExp, (ctx) => {
+  clearSession(ctx);
+  ctx.reply(msgCancel, feedbackKeyboard);
+});
 
 bot.on('text', (ctx) => {
   ctx.session = ctx.session || {};
-  if (ctx.session.topic) {
-    saveFeedback(ctx);
-    ctx.reply(topicObj[ctx.session.topic].epilog);
-  } else {
-    getMainMenu(ctx);
+  const { text } = ctx.update.message;
+
+  if (ctx.session.topic && text !== btnCancel) {
+    const topic = topics.find((topic) => topic.id === ctx.session.topic);
+
+    if (ctx.session.sn) {
+      saveFeedback(ctx);
+      if (topic) {
+        ctx.reply(topic.epilog, feedbackKeyboard);
+        clearSession(ctx);
+      }
+    } else {
+      ctx.session.sn = text;
+
+      if (topic) ctx.reply(topic.preface);
+    }
   }
-  ctx.session.topic = '';
 });
 
 bot.launch();

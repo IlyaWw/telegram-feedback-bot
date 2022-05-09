@@ -1,6 +1,6 @@
 {
   "name": "telegram-feedback-bot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple bot for getting users feedback",
   "main": "index.js",
   "scripts": {

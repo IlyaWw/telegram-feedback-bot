@@ -10,14 +10,14 @@ const saveFeedback = (ctx) => {
         date,
       },
     },
-    session: { topic },
+    session: { topic, sn },
   } = ctx;
   const formattedDate = format(date * 1000, 'yyyy-MM-dd HH:mm:ss');
   console.log(
-    `${formattedDate} [${first_name} ${last_name} ${username}] ${topic}: ${text}`
+    `${formattedDate} [${first_name} ${last_name} ${username}] ${topic}: [${sn}] ${text}`
   );
 
-  googleapi([formattedDate, first_name, last_name, username, topic, text]);
+  googleapi([formattedDate, first_name, last_name, username, topic, sn, text]);
 };
 
 module.exports.saveFeedback = saveFeedback;
