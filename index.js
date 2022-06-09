@@ -26,7 +26,7 @@ const bot = new Telegraf(TELEGRAM_TOKEN);
 
 bot.use(session());
 bot.start((ctx) => {
-  ctx.reply(msgWelcome, feedbackKeyboard);
+  ctx.replyWithMarkdown(msgWelcome, feedbackKeyboard);
 });
 bot.help((ctx) => {
   clearSession(ctx);
